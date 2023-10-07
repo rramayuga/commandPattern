@@ -8,6 +8,7 @@ public class Client {
     private static Device selectedDevice;
 
     public static void main(String[] args) {
+    	devicesMenu();
     }
    
     public static void devicesMenu() {
@@ -39,7 +40,7 @@ public class Client {
     }
    
     private static void displayActions() {
-        System.out.println(
+        System.out.print(
         		  "\n\nActions:"
         		+ "\n\t1. Turn On"
         		+ "\n\t2. Turn Off");
@@ -67,6 +68,7 @@ public class Client {
         }
         System.out.print("\nSelect an action: ");
     }
+    //try and catch(handle action)
 
     private static void handleAction(int action) {
         switch (action) {
@@ -107,9 +109,17 @@ public class Client {
                     String color = scanner.next();
                     controller.addCommand(new ChangeColorCommand(color));
                 }
+                else {
+                	returnToMain();
+                }
                 break;
             case 5:
-                returnToMain();  // Go back to the main menu
+                if (selectedDevice instanceof LightDevice) {
+                	returnToMain();  // Go back to the main menu
+                }
+                else {
+                    System.out.println("Invalid action for this device.");
+                }
                 break;
             default:
                 System.out.println("Invalid action. Try again.");
@@ -118,21 +128,7 @@ public class Client {
 
     private static void returnToMain() {
         System.out.println("\nReturning to main menu...");
-        System.out.println("Devices: ");
-        System.out.println("1. Light");
-        System.out.println("2. Thermostat");
-        System.out.println("3. Music Player");
-        System.out.println("4. TV");
-        System.out.println("5. Fan\n");
-        System.out.print("Select a device to control: ");
-
-        int choice = scanner.nextInt();
-        selectedDevice = createDevice(choice);
-
-        if (selectedDevice == null) {
-            System.out.println("Invalid choice. Exiting...");
-            exit();
-        }
+        devicesMenu();
     }
 
     
